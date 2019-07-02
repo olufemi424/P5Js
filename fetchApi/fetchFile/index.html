@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Working With Data In JS</title>
+  </head>
+
+  <body>
+    <img id="rainbow" src="" alt="rainbow" width="400" height="400" />
+    <div id="poem"></div>
+    <script>
+      console.log("about to fetch fainbow");
+
+      catchRainbow().catch(err => console.log(err));
+
+      async function catchRainbow() {
+        const res = await fetch("rainbow.jpg");
+        console.log(res);
+        const blob = await res.blob();
+        console.log(blob);
+        document.getElementById("rainbow").src = URL.createObjectURL(blob);
+      }
+
+      /******************************/
+      console.log("about to fetch text");
+
+      catchText().catch(err => console.log(err));
+
+      async function catchText() {
+        const res = await fetch("poem.txt");
+        console.log(res);
+        const text = await res.text();
+        console.log(text);
+        document.getElementById("poem").innerHTML = text;
+      }
+
+      /******************************/
+      console.log("fetching array of images");
+      const images = [
+        "./images/img1.jpg",
+        "./images/img2.jpg",
+        "./images/img3.jpg"
+      ];
+      fetchImages(images);
+
+      async function fetchImages(images) {
+        for (let image of images) {
+          const res = await fetch(image.toString());
+          //   console.log(res);
+          const blob = await res.blob();
+          console.log(blob);
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(blob);
+          img.width = "300";
+          img.height = "300";
+          document.body.append(img);
+        }
+      }
+    </script>
+  </body>
+</html>
